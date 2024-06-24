@@ -8,6 +8,7 @@ from .base import TimeStampedModel
 
 if TYPE_CHECKING:
     from .item import Item
+    from .result import Result
 
     # from .item import ItemPublic
 
@@ -69,6 +70,7 @@ class User(UserBase, TimeStampedModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     hashed_password: str
     items: list["Item"] = Relationship(back_populates="owner")
+    results: list["Result"] = Relationship(back_populates="owner")
 
     def __str__(self):
         return self.full_name
