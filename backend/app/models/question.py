@@ -8,7 +8,7 @@ from .base import TimeStampedModel
 from .category import Category, CategoryPublic
 
 if TYPE_CHECKING:
-    from .response import Response, ResponsePublic
+    from .response import Response
 
 
 # Shared properties
@@ -48,6 +48,14 @@ class Question(QuestionBase, TimeStampedModel, table=True):
         return self.text
 
 
+class ResponsePublic(TimeStampedModel):
+    """ """
+
+    id: int
+    text: str
+    question_id: int
+
+
 # Properties to return via API, id is always required
 class QuestionPublic(QuestionBase, TimeStampedModel):
     """ """
@@ -55,4 +63,4 @@ class QuestionPublic(QuestionBase, TimeStampedModel):
     id: int
     category_id: int
     category: CategoryPublic
-    responses: list["ResponsePublic"]
+    responses: list[ResponsePublic]
