@@ -7,7 +7,7 @@ from app.models import SQLModel
 from .base import TimeStampedModel
 
 if TYPE_CHECKING:
-    from .question import Question, QuestionPublic
+    from .question import Question
 
 
 # Shared properties
@@ -48,4 +48,4 @@ class CategoryPublic(CategoryBase, TimeStampedModel):
     """ """
 
     id: int
-    questions: list["QuestionPublic"]
+    # questions: list["QuestionPublic"]

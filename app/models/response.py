@@ -3,7 +3,7 @@ from sqlmodel import Field, Relationship
 from app.models import SQLModel
 
 from .base import TimeStampedModel
-from .question import Question, QuestionPublic
+from .question import Question
 
 
 # Shared properties
@@ -53,4 +53,4 @@ class ResponsePublic(ResponseFirst, TimeStampedModel):
 
     id: int
     question_id: int
-    question: QuestionPublic
+    # question: QuestionPublic
