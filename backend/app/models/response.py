@@ -1,6 +1,6 @@
 from sqlmodel import Field, Relationship
 
-from app.models import SQLModel
+from app.models import SQLModel  # type: ignore[attr-defined]
 
 from .base import TimeStampedModel
 from .question import Question, QuestionPublic
@@ -46,7 +46,7 @@ class Response(ResponseBase, TimeStampedModel, table=True):
     )
     question: Question | None = Relationship(back_populates="responses")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.text
 
 

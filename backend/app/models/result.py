@@ -1,6 +1,6 @@
 from sqlmodel import Field, Relationship
 
-from app.models import SQLModel
+from app.models import SQLModel  # type: ignore[attr-defined]
 
 from .base import TimeStampedModel
 from .category import Category, CategoryPublic
@@ -41,8 +41,8 @@ class Result(ResultBase, TimeStampedModel, table=True):
     )
     category: Category | None = Relationship(back_populates="results")
 
-    def __str__(self):
-        return self.score
+    def __str__(self) -> str:
+        return f"{self.score}"
 
 
 # Properties to return via API, id is always required

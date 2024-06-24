@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from sqlmodel import Field, Relationship
 
-from app.models import SQLModel
+from app.models import SQLModel  # type: ignore[attr-defined]
 
 from .base import TimeStampedModel
 
@@ -72,7 +72,7 @@ class User(UserBase, TimeStampedModel, table=True):
     items: list["Item"] = Relationship(back_populates="owner")
     results: list["Result"] = Relationship(back_populates="owner")
 
-    def __str__(self):
+    def __str__(self) -> str | None:
         return self.full_name
 
 
