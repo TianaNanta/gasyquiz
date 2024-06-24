@@ -3,7 +3,6 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlmodel import paginate
-from sqlalchemy.orm import subqueryload
 from sqlmodel import func, select
 
 from app.api.deps import CurrentUser, SessionDep
@@ -18,11 +17,7 @@ def read_questions(session: SessionDep) -> Page[QuestionPublic]:
     Retrieve questions.
     """
 
-    query = (
-        select(Question)
-        .options(subqueryload(Question.responses).order_by(func.random()))
-        .order_by(func.random())
-    )
+    query = select(Question).order_by(func.random())
 
     return paginate(session, query)
 
@@ -32,9 +27,7 @@ def read_question(session: SessionDep, id: int) -> Any:
     """
     Get question by ID.
     """
-    question = session.get(
-        Question, id, options=[subqueryload(Question.responses).order_by(func.random())]
-    )
+    question = session.get(Question, id)
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
     return question
@@ -67,9 +60,7 @@ def update_question(
     """
     Update an question.
     """
-    question = session.get(
-        Question, id, options=[subqueryload(Question.responses).order_by(func.random())]
-    )
+    question = session.get(Question, id)
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
     if not current_user.is_superuser:
@@ -87,9 +78,7 @@ def delete_question(session: SessionDep, current_user: CurrentUser, id: int) -> 
     """
     Delete an question.
     """
-    question = session.get(
-        Question, id, options=[subqueryload(Question.responses).order_by(func.random())]
-    )
+    question = session.get(Question, id)
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
     if not current_user.is_superuser:
