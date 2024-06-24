@@ -1,9 +1,14 @@
+from typing import TYPE_CHECKING
+
 from sqlmodel import Field, Relationship
 
 from app.models import SQLModel
 
 from .base import TimeStampedModel
 from .category import Category, CategoryPublic
+
+if TYPE_CHECKING:
+    from .response import Response, ResponsePublic
 
 
 # Shared properties
@@ -35,6 +40,7 @@ class Question(QuestionBase, TimeStampedModel, table=True):
     text: str
     category_id: int | None = Field(default=None, foreign_key="category.id", nullable=False)
     category: Category | None = Relationship(back_populates="questions")
+    responses: list["Response"] = Relationship(back_populates="question")
 
     def __str__(self):
         return self.text
@@ -47,3 +53,4 @@ class QuestionPublic(QuestionBase, TimeStampedModel):
     id: int
     category_id: int
     category: CategoryPublic
+    responses: list["ResponsePublic"]
