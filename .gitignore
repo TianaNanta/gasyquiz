@@ -1,0 +1,25 @@
+# python generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.mypy_cache
+.coverage
+htmlcov
+.cache
+
+# IDE
+.idea/
+.vscode/
+# .idx/
+
+# venv
+.venv
+
+# pyproject
+poetry.lock
+
+# environment variable
+.env
