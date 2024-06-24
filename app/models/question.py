@@ -38,7 +38,9 @@ class Question(QuestionBase, TimeStampedModel, table=True):
 
     id: int | None = Field(default=None, primary_key=True)
     text: str
-    category_id: int | None = Field(default=None, foreign_key="category.id", nullable=False)
+    category_id: int | None = Field(
+        default=None, foreign_key="category.id", nullable=False
+    )
     category: Category | None = Relationship(back_populates="questions")
     responses: list["Response"] = Relationship(back_populates="question")
 

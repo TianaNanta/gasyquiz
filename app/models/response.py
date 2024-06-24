@@ -12,6 +12,7 @@ class ResponseFirst(SQLModel):
 
     text: str = Field(index=True)
 
+
 class ResponseBase(ResponseFirst):
     """ """
 
@@ -40,7 +41,9 @@ class Response(ResponseBase, TimeStampedModel, table=True):
 
     id: int | None = Field(default=None, primary_key=True)
     text: str
-    question_id: int | None = Field(default=None, foreign_key="question.id", nullable=False)
+    question_id: int | None = Field(
+        default=None, foreign_key="question.id", nullable=False
+    )
     question: Question | None = Relationship(back_populates="responses")
 
     def __str__(self):

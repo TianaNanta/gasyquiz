@@ -18,6 +18,7 @@ class CategoryBase(SQLModel):
     name: str = Field(index=True)
     description: str | None = None
 
+
 # Properties to receive on Category creation
 class CategoryCreate(CategoryBase):
     """ """

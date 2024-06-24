@@ -36,7 +36,9 @@ class Result(ResultBase, TimeStampedModel, table=True):
     score: int
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
     owner: User | None = Relationship(back_populates="results")
-    category_id: int | None = Field(default=None, foreign_key="category.id", nullable=False)
+    category_id: int | None = Field(
+        default=None, foreign_key="category.id", nullable=False
+    )
     category: Category | None = Relationship(back_populates="results")
 
     def __str__(self):
