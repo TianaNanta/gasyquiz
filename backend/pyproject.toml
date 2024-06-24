@@ -1,7 +1,7 @@
 [project]
-name = "fastemplate"
+name = "gasyquiz"
 version = "0.1.0"
-description = "Add your description here"
+description = "This is a FastAPI project for GasyQuiz, a quiz app for Malagasy language."
 authors = [
     { name = "TianaNanta", email = "andrianjakananta@gmail.com" }
 ]
