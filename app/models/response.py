@@ -7,10 +7,14 @@ from .question import Question, QuestionPublic
 
 
 # Shared properties
-class ResponseBase(SQLModel):
+class ResponseFirst(SQLModel):
     """ """
 
     text: str = Field(index=True)
+
+class ResponseBase(ResponseFirst):
+    """ """
+
     point: int = Field(default=0, nullable=False)
 
 
@@ -44,7 +48,7 @@ class Response(ResponseBase, TimeStampedModel, table=True):
 
 
 # Properties to return via API, id is always required
-class ResponsePublic(ResponseBase, TimeStampedModel):
+class ResponsePublic(ResponseFirst, TimeStampedModel):
     """ """
 
     id: int
