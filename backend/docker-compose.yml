@@ -1,7 +1,7 @@
 services:
   gasyquiz:
-    container_name: '${DOCKER_IMAGE_BACKEND?Variable not set}'
-    image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
+    container_name: "${DOCKER_IMAGE_BACKEND?Variable not set}"
+    image: "${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}"
     restart: always
     ports:
       - "${BACKEND_PORT}:80"
@@ -36,7 +36,7 @@ services:
     # command: /start-reload.sh
 
   db:
-    container_name: '${DOCKER_IMAGE_BACKEND?Variable not set}-database'
+    container_name: "${DOCKER_IMAGE_BACKEND?Variable not set}-database"
     image: postgres:12
     restart: always
     # ports:
