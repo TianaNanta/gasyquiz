@@ -21,7 +21,7 @@ router = APIRouter()
 def read_questions(session: SessionDep) -> Page[QuestionPublic]:
     """Retrieve questions.
 
-    :param session: SessionDep: 
+    :param session: SessionDep:
 
     """
 
@@ -34,8 +34,8 @@ def read_questions(session: SessionDep) -> Page[QuestionPublic]:
 def read_question(session: SessionDep, id: int) -> Any:
     """Get question by ID.
 
-    :param session: SessionDep: 
-    :param id: int: 
+    :param session: SessionDep:
+    :param id: int:
 
     """
     question = session.get(Question, id)
@@ -50,10 +50,10 @@ def create_question(
 ) -> Any:
     """Create new question.
 
-    :param *: 
-    :param session: SessionDep: 
-    :param current_user: CurrentUser: 
-    :param question_in: QuestionCreate: 
+    :param *:
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
+    :param question_in: QuestionCreate:
 
     """
     if not current_user.is_superuser:
@@ -75,11 +75,11 @@ def update_question(
 ) -> Any:
     """Update an question.
 
-    :param *: 
-    :param session: SessionDep: 
-    :param current_user: CurrentUser: 
-    :param id: int: 
-    :param question_in: QuestionUpdate: 
+    :param *:
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
+    :param id: int:
+    :param question_in: QuestionUpdate:
 
     """
     question = session.get(Question, id)
@@ -99,9 +99,9 @@ def update_question(
 def delete_question(session: SessionDep, current_user: CurrentUser, id: int) -> Message:
     """Delete an question.
 
-    :param session: SessionDep: 
-    :param current_user: CurrentUser: 
-    :param id: int: 
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
+    :param id: int:
 
     """
     question = session.get(Question, id)
