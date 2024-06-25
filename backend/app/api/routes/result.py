@@ -20,8 +20,8 @@ router = APIRouter()
 def read_results(session: SessionDep, current_user: CurrentUser) -> Page[ResultPublic]:
     """Retrieve results.
 
-    :param session: SessionDep: 
-    :param current_user: CurrentUser: 
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
 
     """
 
@@ -37,9 +37,9 @@ def read_results(session: SessionDep, current_user: CurrentUser) -> Page[ResultP
 def read_result(session: SessionDep, current_user: CurrentUser, id: int) -> Any:
     """Get result by ID.
 
-    :param session: SessionDep: 
-    :param current_user: CurrentUser: 
-    :param id: int: 
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
+    :param id: int:
 
     """
     result = session.get(Result, id)
@@ -56,10 +56,10 @@ def create_result(
 ) -> Any:
     """Create new result.
 
-    :param *: 
-    :param session: SessionDep: 
-    :param current_user: CurrentUser: 
-    :param result_in: ResultCreate: 
+    :param *:
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
+    :param result_in: ResultCreate:
 
     """
     result = Result.model_validate(result_in, update={"owner_id": current_user.id})
@@ -79,11 +79,11 @@ def update_result(
 ) -> Any:
     """Update an result.
 
-    :param *: 
-    :param session: SessionDep: 
-    :param current_user: CurrentUser: 
-    :param id: int: 
-    :param result_in: ResultUpdate: 
+    :param *:
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
+    :param id: int:
+    :param result_in: ResultUpdate:
 
     """
     result = session.get(Result, id)
@@ -103,9 +103,9 @@ def update_result(
 def delete_result(session: SessionDep, current_user: CurrentUser, id: int) -> Message:
     """Delete an result.
 
-    :param session: SessionDep: 
-    :param current_user: CurrentUser: 
-    :param id: int: 
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
+    :param id: int:
 
     """
     result = session.get(Result, id)
