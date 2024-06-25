@@ -1,24 +1,18 @@
 from typing import Any
 
-from app.api.deps import CurrentUser
-from app.api.deps import SessionDep
-from app.models import Message
-from app.models import Result
-from app.models import ResultCreate
-from app.models import ResultPublic
-from app.models import ResultUpdate
-from fastapi import APIRouter
-from fastapi import HTTPException
+from fastapi import APIRouter, HTTPException
 from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlmodel import paginate
 from sqlmodel import select
+
+from app.api.deps import CurrentUser, SessionDep
+from app.models import Message, Result, ResultCreate, ResultPublic, ResultUpdate
 
 router = APIRouter()
 
 
 @router.get("/", response_model=Page[ResultPublic])
-def read_results(session: SessionDep,
-                 current_user: CurrentUser) -> Page[ResultPublic]:
+def read_results(session: SessionDep, current_user: CurrentUser) -> Page[ResultPublic]:
     """Retrieve results.
 
     :param session: SessionDep:
@@ -35,8 +29,7 @@ def read_results(session: SessionDep,
 
 
 @router.get("/{id}", response_model=ResultPublic)
-def read_result(session: SessionDep, current_user: CurrentUser,
-                id: int) -> Any:
+def read_result(session: SessionDep, current_user: CurrentUser, id: int) -> Any:
     """Get result by ID.
 
     :param session: SessionDep:
@@ -53,8 +46,9 @@ def read_result(session: SessionDep, current_user: CurrentUser,
 
 
 @router.post("/", response_model=ResultPublic)
-def create_result(*, session: SessionDep, current_user: CurrentUser,
-                  result_in: ResultCreate) -> Any:
+def create_result(
+    *, session: SessionDep, current_user: CurrentUser, result_in: ResultCreate
+) -> Any:
     """Create new result.
 
     :param *:
@@ -63,8 +57,7 @@ def create_result(*, session: SessionDep, current_user: CurrentUser,
     :param result_in: ResultCreate:
 
     """
-    result = Result.model_validate(result_in,
-                                   update={"owner_id": current_user.id})
+    result = Result.model_validate(result_in, update={"owner_id": current_user.id})
     session.add(result)
     session.commit()
     session.refresh(result)
@@ -102,8 +95,7 @@ def update_result(
 
 
 @router.delete("/{id}")
-def delete_result(session: SessionDep, current_user: CurrentUser,
-                  id: int) -> Message:
+def delete_result(session: SessionDep, current_user: CurrentUser, id: int) -> Message:
     """Delete an result.
 
     :param session: SessionDep:
