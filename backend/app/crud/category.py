@@ -1,4 +1,5 @@
-from app.models import Category, CategoryCreate  # type: ignore[attr-defined]
+from app.models import Category
+from app.models import CategoryCreate
 from sqlmodel import Session
 
 

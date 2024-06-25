@@ -1,7 +1,8 @@
 from typing import TYPE_CHECKING
 
 from app.models import SQLModel  # type: ignore[attr-defined]
-from sqlmodel import Field, Relationship
+from sqlmodel import Field
+from sqlmodel import Relationship
 
 from .base import TimeStampedModel
 

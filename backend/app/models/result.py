@@ -1,9 +1,12 @@
 from app.models import SQLModel  # type: ignore[attr-defined]
-from sqlmodel import Field, Relationship
+from sqlmodel import Field
+from sqlmodel import Relationship
 
 from .base import TimeStampedModel
-from .category import Category, CategoryPublic
-from .user import User, UserPublic
+from .category import Category
+from .category import CategoryPublic
+from .user import User
+from .user import UserPublic
 
 
 # Shared properties

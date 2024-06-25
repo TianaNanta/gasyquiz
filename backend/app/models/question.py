@@ -1,10 +1,12 @@
 from typing import TYPE_CHECKING
 
 from app.models import SQLModel  # type: ignore[attr-defined]
-from sqlmodel import Field, Relationship
+from sqlmodel import Field
+from sqlmodel import Relationship
 
 from .base import TimeStampedModel
-from .category import Category, CategoryPublic
+from .category import Category
+from .category import CategoryPublic
 
 if TYPE_CHECKING:
     from .response import Response
