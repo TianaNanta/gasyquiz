@@ -35,7 +35,7 @@ def read_responses(session: SessionDep, question_id: int) -> Page[ResponsePublic
     return paginate(session, query)
 
 
-@router.get("/{id}", response_model=ResponsePublic)
+@router.get("/unique/{id}", response_model=ResponsePublic)
 def read_response(session: SessionDep, id: int) -> Any:
     """
     Get response by ID.
