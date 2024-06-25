@@ -1,3 +1,3 @@
 set -x
 
-docker compose exec backend alembic revision --autogenerate "$@"
+docker compose exec gasyquiz alembic revision --autogenerate "$@"
