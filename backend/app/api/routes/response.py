@@ -3,26 +3,39 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlmodel import paginate
-from sqlmodel import select
+from sqlmodel import func, select
 
 from app.api.deps import CurrentUser, SessionDep
-from app.models import Message, Response, ResponseCreate, ResponsePublic, ResponseUpdate
+from app.models import (
+    Message,
+    Question,
+    Response,
+    ResponseCreate,
+    ResponsePublic,
+    ResponseUpdate,
+)
 
 router = APIRouter()
 
 
-@router.get("/", response_model=Page[ResponsePublic])
-def read_responses(session: SessionDep) -> Page[ResponsePublic]:
+@router.get("/{question_id}", response_model=Page[ResponsePublic])
+def read_responses(session: SessionDep, question_id: int) -> Page[ResponsePublic]:
     """
     Retrieve responses.
     """
-
-    query = select(Response).order_by(Response.updated_at.desc())
+    question = session.get(Question, question_id)
+    if not question:
+        raise HTTPException(status_code=404, detail="Question not found")
+    query = (
+        select(Response)
+        .where(Response.question_id == question_id)
+        .order_by(func.random())
+    )
 
     return paginate(session, query)
 
 
-@router.get("/{id}", response_model=ResponsePublic)
+@router.get("/unique/{id}", response_model=ResponsePublic)
 def read_response(session: SessionDep, id: int) -> Any:
     """
     Get response by ID.
@@ -63,7 +76,7 @@ def update_response(
     response = session.get(Response, id)
     if not response:
         raise HTTPException(status_code=404, detail="Response not found")
-    if not current_user.is_superuser or (response.owner_id != current_user.id):
+    if not current_user.is_superuser and (response.owner_id != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
     update_dict = response_in.model_dump(exclude_unset=True)
     response.sqlmodel_update(update_dict)
@@ -81,7 +94,7 @@ def delete_response(session: SessionDep, current_user: CurrentUser, id: int) -> 
     response = session.get(Response, id)
     if not response:
         raise HTTPException(status_code=404, detail="Response not found")
-    if not current_user.is_superuser or (response.owner_id != current_user.id):
+    if not current_user.is_superuser and (response.owner_id != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
     session.delete(response)
     session.commit()

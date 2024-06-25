@@ -19,6 +19,7 @@ class ResultCreate(ResultBase):
     """ """
 
     score: int
+    category_id: int
 
 
 # Properties to receive on result update
