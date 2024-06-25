@@ -57,7 +57,8 @@ def create_result(
     :param result_in: ResultCreate:
 
     """
-    result = Result.model_validate(result_in, update={"owner_id": current_user.id})
+    result = Result.model_validate(
+        result_in, update={"owner_id": current_user.id})
     session.add(result)
     session.commit()
     session.refresh(result)
