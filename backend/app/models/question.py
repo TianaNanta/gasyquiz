@@ -23,6 +23,7 @@ class QuestionCreate(QuestionBase):
     """ """
 
     text: str
+    category_id: int
 
 
 # Properties to receive on Question update
