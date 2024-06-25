@@ -13,8 +13,11 @@ router = APIRouter()
 
 @router.get("/{question_id}", response_model=Page[ResponsePublic])
 def read_responses(session: SessionDep, question_id: int) -> Page[ResponsePublic]:
-    """
-    Retrieve responses.
+    """Retrieve responses.
+
+    :param session: SessionDep: 
+    :param question_id: int: 
+
     """
     question = session.get(Question, question_id)
     if not question:
@@ -30,8 +33,11 @@ def read_responses(session: SessionDep, question_id: int) -> Page[ResponsePublic
 
 @router.get("/unique/{id}", response_model=ResponsePublic)
 def read_response(session: SessionDep, id: int) -> Any:
-    """
-    Get response by ID.
+    """Get response by ID.
+
+    :param session: SessionDep: 
+    :param id: int: 
+
     """
     response = session.get(Response, id)
     if not response:
@@ -43,8 +49,13 @@ def read_response(session: SessionDep, id: int) -> Any:
 def create_response(
     *, session: SessionDep, current_user: CurrentUser, response_in: ResponseCreate
 ) -> Any:
-    """
-    Create new response.
+    """Create new response.
+
+    :param *: 
+    :param session: SessionDep: 
+    :param current_user: CurrentUser: 
+    :param response_in: ResponseCreate: 
+
     """
     response = Response.model_validate(
         response_in, update={"owner_id": current_user.id}
@@ -63,8 +74,14 @@ def update_response(
     id: int,
     response_in: ResponseUpdate,
 ) -> Any:
-    """
-    Update an response.
+    """Update an response.
+
+    :param *: 
+    :param session: SessionDep: 
+    :param current_user: CurrentUser: 
+    :param id: int: 
+    :param response_in: ResponseUpdate: 
+
     """
     response = session.get(Response, id)
     if not response:
@@ -81,8 +98,12 @@ def update_response(
 
 @router.delete("/{id}")
 def delete_response(session: SessionDep, current_user: CurrentUser, id: int) -> Message:
-    """
-    Delete an response.
+    """Delete an response.
+
+    :param session: SessionDep: 
+    :param current_user: CurrentUser: 
+    :param id: int: 
+
     """
     response = session.get(Response, id)
     if not response:
