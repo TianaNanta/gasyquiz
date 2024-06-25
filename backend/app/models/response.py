@@ -4,18 +4,14 @@ from app.models import SQLModel  # type: ignore[attr-defined]
 
 from .base import TimeStampedModel
 from .question import Question, QuestionPublic
+from .user import User, UserPublic
 
 
 # Shared properties
-class ResponseFirst(SQLModel):
+class ResponseBase(SQLModel):
     """ """
 
     text: str = Field(index=True)
-
-
-class ResponseBase(ResponseFirst):
-    """ """
-
     point: int = Field(default=0, nullable=False)
 
 
@@ -45,15 +41,19 @@ class Response(ResponseBase, TimeStampedModel, table=True):
         default=None, foreign_key="question.id", nullable=False
     )
     question: Question | None = Relationship(back_populates="responses")
+    owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
+    owner: User | None = Relationship(back_populates="responses")
 
     def __str__(self) -> str:
         return self.text
 
 
 # Properties to return via API, id is always required
-class ResponsePublic(ResponseFirst, TimeStampedModel):
+class ResponsePublic(ResponseBase, TimeStampedModel):
     """ """
 
     id: int
     question_id: int
     question: QuestionPublic
+    owner_id: int
+    owner: UserPublic
