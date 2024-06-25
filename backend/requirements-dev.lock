@@ -94,7 +94,7 @@ mdurl==0.1.2
     # via markdown-it-py
 more-itertools==10.3.0
     # via cssutils
-mypy==1.10.0
+mypy==1.10.1
 mypy-extensions==1.0.0
     # via mypy
 nodeenv==1.9.1
@@ -122,7 +122,7 @@ pydantic==2.7.4
     # via sqlmodel
 pydantic-core==2.18.4
     # via pydantic
-pydantic-settings==2.3.3
+pydantic-settings==2.3.4
 pygments==2.18.0
     # via rich
 pyjwt==2.8.0
@@ -161,7 +161,7 @@ sqlmodel==0.0.19
 starlette==0.37.2
     # via fastapi
     # via sqladmin
-tenacity==8.4.1
+tenacity==8.4.2
 typer==0.12.3
     # via fastapi-cli
 types-passlib==1.7.7.20240327

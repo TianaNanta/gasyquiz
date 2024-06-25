@@ -100,7 +100,7 @@ pydantic==2.7.4
     # via sqlmodel
 pydantic-core==2.18.4
     # via pydantic
-pydantic-settings==2.3.3
+pydantic-settings==2.3.4
 pygments==2.18.0
     # via rich
 pyjwt==2.8.0
@@ -136,7 +136,7 @@ sqlmodel==0.0.19
 starlette==0.37.2
     # via fastapi
     # via sqladmin
-tenacity==8.4.1
+tenacity==8.4.2
 typer==0.12.3
     # via fastapi-cli
 typing-extensions==4.12.2
