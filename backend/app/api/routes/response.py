@@ -3,21 +3,34 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlmodel import paginate
-from sqlmodel import select
+from sqlmodel import func, select
 
 from app.api.deps import CurrentUser, SessionDep
-from app.models import Message, Response, ResponseCreate, ResponsePublic, ResponseUpdate
+from app.models import (
+    Message,
+    Question,
+    Response,
+    ResponseCreate,
+    ResponsePublic,
+    ResponseUpdate,
+)
 
 router = APIRouter()
 
 
-@router.get("/", response_model=Page[ResponsePublic])
-def read_responses(session: SessionDep) -> Page[ResponsePublic]:
+@router.get("/{question_id}", response_model=Page[ResponsePublic])
+def read_responses(session: SessionDep, question_id: int) -> Page[ResponsePublic]:
     """
     Retrieve responses.
     """
-
-    query = select(Response).order_by(Response.updated_at.desc())
+    question = session.get(Question, question_id)
+    if not question:
+        raise HTTPException(status_code=404, detail="Question not found")
+    query = (
+        select(Response)
+        .where(Response.question_id == question_id)
+        .order_by(func.random())
+    )
 
     return paginate(session, query)
 
