@@ -1,19 +1,12 @@
 from typing import Any
 
+from app.api.deps import CurrentUser, SessionDep
+from app.models import (Message, Question, Response, ResponseCreate,
+                        ResponsePublic, ResponseUpdate)
 from fastapi import APIRouter, HTTPException
 from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlmodel import paginate
 from sqlmodel import func, select
-
-from app.api.deps import CurrentUser, SessionDep
-from app.models import (
-    Message,
-    Question,
-    Response,
-    ResponseCreate,
-    ResponsePublic,
-    ResponseUpdate,
-)
 
 router = APIRouter()
 
