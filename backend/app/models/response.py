@@ -21,6 +21,7 @@ class ResponseCreate(ResponseBase):
 
     text: str
     point: int
+    question_id: int
 
 
 # Properties to receive on item update
