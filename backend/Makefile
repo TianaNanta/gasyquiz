@@ -4,6 +4,10 @@ build:
 down:
 	@docker compose down
 
+fetch:
+	@git fetch origin
+	@git pull
+
 run: build
 	@docker compose up -d
 
