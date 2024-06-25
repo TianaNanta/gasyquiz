@@ -13,8 +13,10 @@ router = APIRouter()
 
 @router.get("/", response_model=Page[QuestionPublic])
 def read_questions(session: SessionDep) -> Page[QuestionPublic]:
-    """
-    Retrieve questions.
+    """Retrieve questions.
+
+    :param session: SessionDep: 
+
     """
 
     query = select(Question).order_by(func.random())
@@ -24,8 +26,11 @@ def read_questions(session: SessionDep) -> Page[QuestionPublic]:
 
 @router.get("/{id}", response_model=QuestionPublic)
 def read_question(session: SessionDep, id: int) -> Any:
-    """
-    Get question by ID.
+    """Get question by ID.
+
+    :param session: SessionDep: 
+    :param id: int: 
+
     """
     question = session.get(Question, id)
     if not question:
@@ -37,8 +42,13 @@ def read_question(session: SessionDep, id: int) -> Any:
 def create_question(
     *, session: SessionDep, current_user: CurrentUser, question_in: QuestionCreate
 ) -> Any:
-    """
-    Create new question.
+    """Create new question.
+
+    :param *: 
+    :param session: SessionDep: 
+    :param current_user: CurrentUser: 
+    :param question_in: QuestionCreate: 
+
     """
     category = session.get(Category, question_in.category_id)
     if not category:
@@ -60,8 +70,14 @@ def update_question(
     id: int,
     question_in: QuestionUpdate,
 ) -> Any:
-    """
-    Update an question.
+    """Update an question.
+
+    :param *: 
+    :param session: SessionDep: 
+    :param current_user: CurrentUser: 
+    :param id: int: 
+    :param question_in: QuestionUpdate: 
+
     """
     question = session.get(Question, id)
     if not question:
@@ -78,8 +94,12 @@ def update_question(
 
 @router.delete("/{id}")
 def delete_question(session: SessionDep, current_user: CurrentUser, id: int) -> Message:
-    """
-    Delete an question.
+    """Delete an question.
+
+    :param session: SessionDep: 
+    :param current_user: CurrentUser: 
+    :param id: int: 
+
     """
     question = session.get(Question, id)
     if not question:
