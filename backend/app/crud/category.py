@@ -3,7 +3,8 @@ from app.models import CategoryCreate
 from sqlmodel import Session
 
 
-def create_category(*, session: Session, category_in: CategoryCreate) -> Category:
+def create_category(*, session: Session,
+                    category_in: CategoryCreate) -> Category:
     """
 
     :param *:
