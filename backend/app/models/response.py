@@ -1,6 +1,5 @@
-from sqlmodel import Field, Relationship
-
 from app.models import SQLModel  # type: ignore[attr-defined]
+from sqlmodel import Field, Relationship
 
 from .base import TimeStampedModel
 from .question import Question, QuestionPublic

@@ -1,6 +1,5 @@
-from sqlmodel import Session
-
 from app.models import Category, CategoryCreate  # type: ignore[attr-defined]
+from sqlmodel import Session
 
 
 def create_category(*, session: Session, category_in: CategoryCreate) -> Category:

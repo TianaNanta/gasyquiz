@@ -1,6 +1,5 @@
-from sqladmin import ModelView
-
 from app.models import User  # type: ignore[attr-defined]
+from sqladmin import ModelView
 
 
 class UserAdmin(ModelView, model=User):
