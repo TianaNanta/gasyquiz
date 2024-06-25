@@ -6,7 +6,14 @@ from fastapi_pagination.ext.sqlmodel import paginate
 from sqlmodel import func, select
 
 from app.api.deps import CurrentUser, SessionDep
-from app.models import Message, Question, QuestionCreate, QuestionPublic, QuestionUpdate
+from app.models import (
+    Category,
+    Message,
+    Question,
+    QuestionCreate,
+    QuestionPublic,
+    QuestionUpdate,
+)
 
 router = APIRouter()
 
@@ -40,6 +47,9 @@ def create_question(
     """
     Create new question.
     """
+    category = session.get(Category, question_in.category_id)
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
     if not current_user.is_superuser:
         raise HTTPException(status_code=400, detail="Not enough permissions")
     question = Question.model_validate(question_in)
