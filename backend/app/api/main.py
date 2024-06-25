@@ -1,5 +1,11 @@
-from app.api.routes import (category, items, login, question, response, result,
-                            users, utils)
+from app.api.routes import category
+from app.api.routes import items
+from app.api.routes import login
+from app.api.routes import question
+from app.api.routes import response
+from app.api.routes import result
+from app.api.routes import users
+from app.api.routes import utils
 from fastapi import APIRouter
 
 api_router = APIRouter()
