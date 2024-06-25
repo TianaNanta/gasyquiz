@@ -46,9 +46,8 @@ def read_question(session: SessionDep, id: int) -> Any:
 
 
 @router.post("/", response_model=QuestionPublic)
-def create_question(
-    *, session: SessionDep, current_user: CurrentUser, question_in: QuestionCreate
-) -> Any:
+def create_question(*, session: SessionDep, current_user: CurrentUser,
+                    question_in: QuestionCreate) -> Any:
     """Create new question.
 
     :param *:
@@ -100,7 +99,8 @@ def update_question(
 
 
 @router.delete("/{id}")
-def delete_question(session: SessionDep, current_user: CurrentUser, id: int) -> Message:
+def delete_question(session: SessionDep, current_user: CurrentUser,
+                    id: int) -> Message:
     """Delete an question.
 
     :param session: SessionDep:
