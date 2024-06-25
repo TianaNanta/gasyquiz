@@ -19,7 +19,8 @@ router = APIRouter()
 
 
 @router.get("/{question_id}", response_model=Page[ResponsePublic])
-def read_responses(session: SessionDep, question_id: int) -> Page[ResponsePublic]:
+def read_responses(session: SessionDep,
+                   question_id: int) -> Page[ResponsePublic]:
     """Retrieve responses.
 
     :param session: SessionDep:
@@ -29,11 +30,8 @@ def read_responses(session: SessionDep, question_id: int) -> Page[ResponsePublic
     question = session.get(Question, question_id)
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
-    query = (
-        select(Response)
-        .where(Response.question_id == question_id)
-        .order_by(func.random())
-    )
+    query = (select(Response).where(
+        Response.question_id == question_id).order_by(func.random()))
 
     return paginate(session, query)
 
@@ -53,9 +51,8 @@ def read_response(session: SessionDep, id: int) -> Any:
 
 
 @router.post("/", response_model=ResponsePublic)
-def create_response(
-    *, session: SessionDep, current_user: CurrentUser, response_in: ResponseCreate
-) -> Any:
+def create_response(*, session: SessionDep, current_user: CurrentUser,
+                    response_in: ResponseCreate) -> Any:
     """Create new response.
 
     :param *:
@@ -64,9 +61,8 @@ def create_response(
     :param response_in: ResponseCreate:
 
     """
-    response = Response.model_validate(
-        response_in, update={"owner_id": current_user.id}
-    )
+    response = Response.model_validate(response_in,
+                                       update={"owner_id": current_user.id})
     session.add(response)
     session.commit()
     session.refresh(response)
@@ -93,7 +89,8 @@ def update_response(
     response = session.get(Response, id)
     if not response:
         raise HTTPException(status_code=404, detail="Response not found")
-    if not current_user.is_superuser and (response.owner_id != current_user.id):
+    if not current_user.is_superuser and (response.owner_id
+                                          != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
     update_dict = response_in.model_dump(exclude_unset=True)
     response.sqlmodel_update(update_dict)
@@ -104,7 +101,8 @@ def update_response(
 
 
 @router.delete("/{id}")
-def delete_response(session: SessionDep, current_user: CurrentUser, id: int) -> Message:
+def delete_response(session: SessionDep, current_user: CurrentUser,
+                    id: int) -> Message:
     """Delete an response.
 
     :param session: SessionDep:
@@ -115,7 +113,8 @@ def delete_response(session: SessionDep, current_user: CurrentUser, id: int) -> 
     response = session.get(Response, id)
     if not response:
         raise HTTPException(status_code=404, detail="Response not found")
-    if not current_user.is_superuser and (response.owner_id != current_user.id):
+    if not current_user.is_superuser and (response.owner_id
+                                          != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
     session.delete(response)
     session.commit()
