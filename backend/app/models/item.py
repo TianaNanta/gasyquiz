@@ -1,6 +1,6 @@
 from sqlmodel import Field, Relationship
 
-from app.models import SQLModel
+from app.models import SQLModel  # type: ignore[attr-defined]
 
 from .base import TimeStampedModel
 from .user import User, UserPublic
@@ -37,7 +37,7 @@ class Item(ItemBase, TimeStampedModel, table=True):
     owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
     owner: User | None = Relationship(back_populates="items")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
 
 

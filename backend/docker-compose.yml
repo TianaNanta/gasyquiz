@@ -1,5 +1,5 @@
 services:
-  backend:
+  gasyquiz:
     container_name: '${DOCKER_IMAGE_BACKEND?Variable not set}'
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
     restart: always
@@ -42,7 +42,7 @@ services:
     # ports:
     #   - "5442:5432"
     volumes:
-      - app-db-data:/var/lib/postgresql/data/pgdata
+      - gasyquiz-db-data:/var/lib/postgresql/data/pgdata
     env_file:
       - .env
     healthcheck:
@@ -67,5 +67,5 @@ services:
       - ADMINER_DESIGN=pepa-linha-dark
 
 volumes:
-  app-db-data:
-    name: app-db-data
+  gasyquiz-db-data:
+    name: gasyquiz-db-data

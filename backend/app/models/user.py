@@ -2,12 +2,13 @@ from typing import TYPE_CHECKING
 
 from sqlmodel import Field, Relationship
 
-from app.models import SQLModel
+from app.models import SQLModel  # type: ignore[attr-defined]
 
 from .base import TimeStampedModel
 
 if TYPE_CHECKING:
     from .item import Item
+    from .response import Response
     from .result import Result
 
     # from .item import ItemPublic
@@ -71,8 +72,9 @@ class User(UserBase, TimeStampedModel, table=True):
     hashed_password: str
     items: list["Item"] = Relationship(back_populates="owner")
     results: list["Result"] = Relationship(back_populates="owner")
+    responses: list["Response"] = Relationship(back_populates="owner")
 
-    def __str__(self):
+    def __str__(self) -> str | None:
         return self.full_name
 
 

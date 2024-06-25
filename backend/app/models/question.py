@@ -2,13 +2,13 @@ from typing import TYPE_CHECKING
 
 from sqlmodel import Field, Relationship
 
-from app.models import SQLModel
+from app.models import SQLModel  # type: ignore[attr-defined]
 
 from .base import TimeStampedModel
 from .category import Category, CategoryPublic
 
 if TYPE_CHECKING:
-    from .response import Response, ResponsePublic
+    from .response import Response
 
 
 # Shared properties
@@ -23,6 +23,7 @@ class QuestionCreate(QuestionBase):
     """ """
 
     text: str
+    category_id: int
 
 
 # Properties to receive on Question update
@@ -44,8 +45,16 @@ class Question(QuestionBase, TimeStampedModel, table=True):
     category: Category | None = Relationship(back_populates="questions")
     responses: list["Response"] = Relationship(back_populates="question")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.text
+
+
+class ResponsePublic(TimeStampedModel):
+    """ """
+
+    id: int
+    text: str
+    question_id: int
 
 
 # Properties to return via API, id is always required
@@ -55,4 +64,4 @@ class QuestionPublic(QuestionBase, TimeStampedModel):
     id: int
     category_id: int
     category: CategoryPublic
-    responses: list["ResponsePublic"]
+    responses: list[ResponsePublic]

@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from sqlmodel import Field, Relationship
 
-from app.models import SQLModel
+from app.models import SQLModel  # type: ignore[attr-defined]
 
 from .base import TimeStampedModel
 

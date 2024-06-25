@@ -1,5 +1,5 @@
 services:
-  backend:
+  gasyquiz:
     restart: "no"
     ports:
       - "${BACKEND_PORT}:80"

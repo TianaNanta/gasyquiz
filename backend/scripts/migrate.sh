@@ -1,3 +1,3 @@
 set -x
 
-docker compose exec backend alembic upgrade head
+docker compose exec gasyquiz alembic upgrade head
