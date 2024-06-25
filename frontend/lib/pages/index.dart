@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../globals.dart' as globals;
 
 class Index extends StatelessWidget {
   @override
@@ -28,7 +29,7 @@ class Index extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 36),
-              _buildButton('Hilalao', Color(0xFF753A11), Color(0xFFFFFFFF)),
+              _buildButton('Hilalao', Color(0xFF753A11), Color(0xFFFFFFFF), context),
               const SizedBox(height: 40),
               // _buildButton('Add Quiz', Color(0xFFFFEACF), Color(0xFF753A11)),
             ],
@@ -59,7 +60,7 @@ class Index extends StatelessWidget {
         SizedBox(height: (MediaQuery.sizeOf(context).height / 4) - 50.0),
         Text(
           'Quiz Gasy',
-          style: GoogleFonts.fredoka(
+          style: GoogleFonts.robotoCondensed(
             fontWeight: FontWeight.w400,
             fontSize: 50,
             color: const Color(0xFFFFFFFF),
@@ -78,18 +79,21 @@ class Index extends StatelessWidget {
     );
   }
 
-  Widget _buildButton(String text, Color bgColor, Color textColor) {
+  Widget _buildButton(String text, Color bgColor, Color textColor, BuildContext ctx) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: bgColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          padding: EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
         ),
-        onPressed: () {},
+        onPressed: () {
+          var path = globals.is_connected ? '/home' : '/inscription';
+          Navigator.of(ctx).pushNamed(path);
+        },
         child: Text(
           text,
           style: GoogleFonts.robotoCondensed(

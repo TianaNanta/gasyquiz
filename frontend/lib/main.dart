@@ -13,14 +13,13 @@ void main() {
   var api_key = "";
 
   runApp(MaterialApp(
-    initialRoute: '/',
+    initialRoute: '/index',
     routes: {
       '/home': (ctx) => Home(),
       '/inscription': (ctx) => Inscription(),
       '/index': (ctx) => Index(),
       '/questions': (ctx) => Questions(),
     },
-    home: Home(),
   ));
 }
 

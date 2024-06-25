@@ -2,65 +2,89 @@ import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../globals.dart' as globals;
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Questions extends StatelessWidget {
-  const Questions({super.key});
+  Questions({super.key});
+
+  Future<String> _getQuestion(id) async {
+    var resp = await http.get(
+      Uri.parse('${globals.api_url}/question/$id'),
+      headers: {'API_KEY': globals.api_key}
+      );
+    if (resp.statusCode == 201 || resp.statusCode == 200) {
+      return resp.body;
+    }
+    return "";
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFEACF),
-      body: Stack(
-        children: [
-          Positioned(
-            right: -50,  // Adjusted to compensate for rotation
-            top: 130,     // +30, Adjusted to compensate for rotation
-            child: Opacity(
-              opacity: 0.3,
-              child: Transform.rotate(
-                angle: -10 * 3.14159 / 180,  // 30 degrees in radians
-                child: Image.asset(
-                  'assets/images/madagascar_flag_isolated_on_white_removebg_preview_1.png',
-                  width: 500,  // 600, Increased size to cover more area after rotation
-                  height: 400, // 550
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 31, 16, 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _buildHeader(),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Questions',
-                      style: GoogleFonts.robotoCondensed(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 25,
-                        color: Color(0xFF753A11),
+    var cmap = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    var categoryId = cmap['categoryId'];
+
+    return FutureBuilder(
+        future: _getQuestion(categoryId),
+        builder: (ctx, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+            final data = snapshot.data as Map<String, List<String>>;
+            return Scaffold(
+              backgroundColor: const Color(0xFFFFEACF),
+              body: Stack(
+                children: [
+                  Positioned(
+                    right: -50,
+                    top: 130,
+                    child: Opacity(
+                      opacity: 0.3,
+                      child: Transform.rotate(
+                        angle: -10 * 3.14159 / 180,
+                        child: Image.asset(
+                          'assets/images/madagascar_flag_isolated_on_white_removebg_preview_1.png',
+                          width: 500,
+                          height: 400,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    SizedBox(height: 70),
-                    _buildAnswerButton('A'),
-                    SizedBox(height: 25),
-                    _buildAnswerButton('B'),
-                    SizedBox(height: 25),
-                    _buildAnswerButton('C'),
-                    SizedBox(height: 25),
-                    Center(child: _buildNextButton()),
-                  ],
-                ),
+                  ),
+                  SafeArea(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 31, 16, 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            _buildHeader(),
+                            const SizedBox(height: 10),
+                            Text(
+                              'Questions',
+                              style: GoogleFonts.robotoCondensed(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 25,
+                                color: Color(0xFF753A11),
+                              ),
+                            ),
+                            SizedBox(height: 70),
+                            _buildAnswerButton('A'),
+                            SizedBox(height: 25),
+                            _buildAnswerButton('B'),
+                            SizedBox(height: 25),
+                            _buildAnswerButton('C'),
+                            SizedBox(height: 25),
+                            Center(child: _buildNextButton()),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ),
-        ],
-      ),
-    );
+            );
+          }
+        });
   }
 
   Widget _buildHeader() {

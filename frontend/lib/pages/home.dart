@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart' as http;
 import '../utils.dart';
+import '../globals.dart' as globals;
 import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatelessWidget {
@@ -118,12 +122,12 @@ class Home extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
-                          _buildCategoryItem('Tantara', 'assets/images/lhistoire_1.png'),
-                          _buildCategoryItem('Jeografia', 'assets/images/carte_1.png'),
-                          _buildCategoryItem('Biby sy Zava-maniry', 'assets/images/maki_1.png'),
-                          _buildCategoryItem('Kolontsaina', 'assets/images/valiha_11.png'),
-                          _buildCategoryItem('Fiteny', 'assets/images/langues_1.png'),
-                          _buildCategoryItem('Artista sy Olo-malaza', 'assets/images/celebre_1.png'),
+                          _buildCategoryItem('Tantara', 'assets/images/lhistoire_1.png', context),
+                          _buildCategoryItem('Jeografia', 'assets/images/carte_1.png', context),
+                          _buildCategoryItem('Biby sy Zava-maniry', 'assets/images/maki_1.png', context),
+                          _buildCategoryItem('Kolontsaina', 'assets/images/valiha_11.png', context),
+                          _buildCategoryItem('Fiteny', 'assets/images/langues_1.png', context),
+                          _buildCategoryItem('Artista sy Olo-malaza', 'assets/images/celebre_1.png', context),
                         ],
                       ),
                     ],
@@ -137,32 +141,45 @@ class Home extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryItem(String title, String imagePath) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFEACF),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            imagePath,
-            width: 55,
-            height: 59,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(height: 6),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.robotoCondensed(
-              fontWeight: FontWeight.w400,
-              fontSize: 17,
-              color: Color(0xFF753A11),
+  Widget _buildCategoryItem(String title, String imagePath, BuildContext ctx) {
+    return GestureDetector(
+      onTap: () {
+        var categoryId = 0;
+        if (title == "Tantara") categoryId = 1;
+        else if (title == "Jeografia") categoryId = 2;
+        else if (title == "Biby sy Zava-maniry") categoryId = 3;
+        else if (title == "Kolontsaina") categoryId = 4;
+        else if (title == "Fiteny") categoryId = 5;
+        else if (title == "Artista sy Olo-malaza") categoryId = 6;
+
+        Navigator.of(ctx).pushNamed('/questions', arguments: categoryId);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFEACF),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              imagePath,
+              width: 55,
+              height: 59,
+              fit: BoxFit.contain,
             ),
-          ),
-        ],
+            const SizedBox(height: 6),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.robotoCondensed(
+                fontWeight: FontWeight.w400,
+                fontSize: 17,
+                color: const Color(0xFF753A11),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
