@@ -45,8 +45,7 @@ def create_result(
     """
     Create new result.
     """
-    result = Result.model_validate(
-        result_in, update={"owner_id": current_user.id})
+    result = Result.model_validate(result_in, update={"owner_id": current_user.id})
     session.add(result)
     session.commit()
     session.refresh(result)
