@@ -76,7 +76,7 @@ def update_response(
     response = session.get(Response, id)
     if not response:
         raise HTTPException(status_code=404, detail="Response not found")
-    if not current_user.is_superuser or (response.owner_id != current_user.id):
+    if not current_user.is_superuser and (response.owner_id != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
     update_dict = response_in.model_dump(exclude_unset=True)
     response.sqlmodel_update(update_dict)
@@ -94,7 +94,7 @@ def delete_response(session: SessionDep, current_user: CurrentUser, id: int) -> 
     response = session.get(Response, id)
     if not response:
         raise HTTPException(status_code=404, detail="Response not found")
-    if not current_user.is_superuser or (response.owner_id != current_user.id):
+    if not current_user.is_superuser and (response.owner_id != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
     session.delete(response)
     session.commit()
