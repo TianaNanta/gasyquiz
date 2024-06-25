@@ -41,8 +41,7 @@ class Response(ResponseBase, TimeStampedModel, table=True):
         default=None, foreign_key="question.id", nullable=False
     )
     question: Question | None = Relationship(back_populates="responses")
-    owner_id: int | None = Field(
-        default=None, foreign_key="user.id", nullable=False)
+    owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
     owner: User | None = Relationship(back_populates="responses")
 
     def __str__(self) -> str:
