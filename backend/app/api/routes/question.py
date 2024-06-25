@@ -1,27 +1,29 @@
 from typing import Any
 
-from fastapi import APIRouter, HTTPException
+from app.api.deps import CurrentUser
+from app.api.deps import SessionDep
+from app.models import Category
+from app.models import Message
+from app.models import Question
+from app.models import QuestionCreate
+from app.models import QuestionPublic
+from app.models import QuestionUpdate
+from fastapi import APIRouter
+from fastapi import HTTPException
 from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlmodel import paginate
-from sqlmodel import func, select
-
-from app.api.deps import CurrentUser, SessionDep
-from app.models import (
-    Category,
-    Message,
-    Question,
-    QuestionCreate,
-    QuestionPublic,
-    QuestionUpdate,
-)
+from sqlmodel import func
+from sqlmodel import select
 
 router = APIRouter()
 
 
 @router.get("/", response_model=Page[QuestionPublic])
 def read_questions(session: SessionDep) -> Page[QuestionPublic]:
-    """
-    Retrieve questions.
+    """Retrieve questions.
+
+    :param session: SessionDep:
+
     """
 
     query = select(Question).order_by(func.random())
@@ -31,8 +33,11 @@ def read_questions(session: SessionDep) -> Page[QuestionPublic]:
 
 @router.get("/{id}", response_model=QuestionPublic)
 def read_question(session: SessionDep, id: int) -> Any:
-    """
-    Get question by ID.
+    """Get question by ID.
+
+    :param session: SessionDep:
+    :param id: int:
+
     """
     question = session.get(Question, id)
     if not question:
@@ -41,11 +46,15 @@ def read_question(session: SessionDep, id: int) -> Any:
 
 
 @router.post("/", response_model=QuestionPublic)
-def create_question(
-    *, session: SessionDep, current_user: CurrentUser, question_in: QuestionCreate
-) -> Any:
-    """
-    Create new question.
+def create_question(*, session: SessionDep, current_user: CurrentUser,
+                    question_in: QuestionCreate) -> Any:
+    """Create new question.
+
+    :param *:
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
+    :param question_in: QuestionCreate:
+
     """
     category = session.get(Category, question_in.category_id)
     if not category:
@@ -67,8 +76,14 @@ def update_question(
     id: int,
     question_in: QuestionUpdate,
 ) -> Any:
-    """
-    Update an question.
+    """Update an question.
+
+    :param *:
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
+    :param id: int:
+    :param question_in: QuestionUpdate:
+
     """
     question = session.get(Question, id)
     if not question:
@@ -84,9 +99,14 @@ def update_question(
 
 
 @router.delete("/{id}")
-def delete_question(session: SessionDep, current_user: CurrentUser, id: int) -> Message:
-    """
-    Delete an question.
+def delete_question(session: SessionDep, current_user: CurrentUser,
+                    id: int) -> Message:
+    """Delete an question.
+
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
+    :param id: int:
+
     """
     question = session.get(Question, id)
     if not question:
