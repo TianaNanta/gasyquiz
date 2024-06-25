@@ -24,8 +24,8 @@ def read_responses(session: SessionDep, question_id: int) -> Page[ResponsePublic
 
     :param session: SessionDep:
     :param question_id: int:
-    :param session: SessionDep: 
-    :param question_id: int: 
+    :param session: SessionDep:
+    :param question_id: int:
 
     """
     question = session.get(Question, question_id)
@@ -46,8 +46,8 @@ def read_response(session: SessionDep, id: int) -> Any:
 
     :param session: SessionDep:
     :param id: int:
-    :param session: SessionDep: 
-    :param id: int: 
+    :param session: SessionDep:
+    :param id: int:
 
     """
     response = session.get(Response, id)
@@ -62,10 +62,10 @@ def create_response(
 ) -> Any:
     """Create new response.
 
-    :param *: 
-    :param session: SessionDep: 
-    :param current_user: CurrentUser: 
-    :param response_in: ResponseCreate: 
+    :param *:
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
+    :param response_in: ResponseCreate:
 
     """
     response = Response.model_validate(
@@ -87,11 +87,11 @@ def update_response(
 ) -> Any:
     """Update an response.
 
-    :param *: 
-    :param session: SessionDep: 
-    :param current_user: CurrentUser: 
-    :param id: int: 
-    :param response_in: ResponseUpdate: 
+    :param *:
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
+    :param id: int:
+    :param response_in: ResponseUpdate:
 
     """
     response = session.get(Response, id)
@@ -114,9 +114,9 @@ def delete_response(session: SessionDep, current_user: CurrentUser, id: int) -> 
     :param session: SessionDep:
     :param current_user: CurrentUser:
     :param id: int:
-    :param session: SessionDep: 
-    :param current_user: CurrentUser: 
-    :param id: int: 
+    :param session: SessionDep:
+    :param current_user: CurrentUser:
+    :param id: int:
 
     """
     response = session.get(Response, id)
