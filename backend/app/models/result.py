@@ -1,10 +1,12 @@
-from sqlmodel import Field, Relationship
-
 from app.models import SQLModel  # type: ignore[attr-defined]
+from sqlmodel import Field
+from sqlmodel import Relationship
 
 from .base import TimeStampedModel
-from .category import Category, CategoryPublic
-from .user import User, UserPublic
+from .category import Category
+from .category import CategoryPublic
+from .user import User
+from .user import UserPublic
 
 
 # Shared properties
@@ -35,11 +37,13 @@ class Result(ResultBase, TimeStampedModel, table=True):
 
     id: int | None = Field(default=None, primary_key=True)
     score: int
-    owner_id: int | None = Field(default=None, foreign_key="user.id", nullable=False)
+    owner_id: int | None = Field(default=None,
+                                 foreign_key="user.id",
+                                 nullable=False)
     owner: User | None = Relationship(back_populates="results")
-    category_id: int | None = Field(
-        default=None, foreign_key="category.id", nullable=False
-    )
+    category_id: int | None = Field(default=None,
+                                    foreign_key="category.id",
+                                    nullable=False)
     category: Category | None = Relationship(back_populates="results")
 
     def __str__(self) -> str:
